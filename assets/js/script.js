@@ -1,17 +1,7 @@
 let tasks = {};
 
-// Change focused `<textarea>` element to a div on click of the save button.
+// Save task object to localStorage.
 let saveTask = function() {
-    let task= $(this).closest(".row").find(".description");
-    let taskInput = $(this).closest(".row").find(".description").val();
-    let taskDiv = $("<div>").addClass("col-9 pt-3 description").text(taskInput);
-    $(task).replaceWith(taskDiv);
-
-    // Add text value to the corresponding key value in tasks object.
-    let index = $(this).closest(".row").find(".taskTime").text();
-    tasks[index] = taskInput
-
-    // Save task object to localStorage.
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
@@ -22,15 +12,23 @@ $(".row").on("click", ".description", function() {
     let taskInput = $("<textarea>").addClass("col-9 pt-3 description").val(task);
     $(this).replaceWith(taskInput);
     taskInput.trigger("focus");
+});
 
-    // Without this event listener inside another, the task description 
-    // is overwritten when the save button is clicked multiple times.
-    $(".saveBtn").on("click", function() {
-        // Save any new inputs on click.
-        saveTask();
-        // Adds corresponding classes when elements change.
-        loadColors();
-    });
+// Change focused `<textarea>` element to a div on click of the save button.
+$(".saveBtn").on("click", function() {
+    let task= $(this).closest(".row").find(".description");
+    let taskInput = $(this).closest(".row").find(".description").val();
+    let taskDiv = $("<div>").addClass("col-9 pt-3 description").text(taskInput);
+    $(task).replaceWith(taskDiv);
+
+    // Add text value to the corresponding key value in tasks object.
+    let index = $(this).closest(".row").find(".taskTime").text();
+    tasks[index] = taskInput;
+
+    // Save any new inputs on click.
+    saveTask();
+    // Adds corresponding classes when elements change.
+    loadColors();
 });
 
 // Load tasks on to page from localStorage.
