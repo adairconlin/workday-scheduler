@@ -97,12 +97,14 @@ let loadColors = function() {
         
         let currentDiv = $(timeDiv[i]).closest(".row").find(".description");
         // Compare the current time to the div's corresponding 
-        // time and style them accordingly.
-        if(currentTime.isSame(formatHour)) {
+        // time and style them accordingly. Also, check if the element is a div
+        // so that `<textarea>`s aren't colored - this is so the user knows they still
+        // have to save that specific task
+        if(currentTime.isSame(formatHour) && currentDiv[0].localName != "textarea") {
             $(currentDiv).addClass("present");
-        } else if(currentTime.isAfter(formatHour)) {
+        } else if(currentTime.isAfter(formatHour) && currentDiv[0].localName != "textarea") {
             $(currentDiv).addClass("past");
-        } else if(currentTime.isBefore(formatHour)) {
+        } else if(currentTime.isBefore(formatHour) && currentDiv[0].localName != "textarea") {
             $(currentDiv).addClass("future");
         }
     }
