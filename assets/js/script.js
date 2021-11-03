@@ -8,6 +8,10 @@ let saveTask = function() {
 // Change targeted div to a `<textarea>` element on click.
 $(".row").on("click", ".description", function() {
     let task = $(this).text().trim();
+    // Prevents task from clearing if you click on the `<textarea>`
+    if(!task) {
+        task = $(this).val();
+    }
     // Save current text when the div is replaced with new element.
     let taskInput = $("<textarea>").addClass("col-9 pt-3 description").val(task);
     $(this).replaceWith(taskInput);
@@ -18,6 +22,10 @@ $(".row").on("click", ".description", function() {
 $(".saveBtn").on("click", function() {
     let task= $(this).closest(".row").find(".description");
     let taskInput = $(this).closest(".row").find(".description").val();
+    // Prevents task from clearing if you click the save button multiple times
+    if(!taskInput) {
+        taskInput = $(this).closest(".row").find(".description").text();
+    }
     let taskDiv = $("<div>").addClass("col-9 pt-3 description").text(taskInput);
     $(task).replaceWith(taskDiv);
 
